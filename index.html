@@ -6,6 +6,9 @@
 <title>SICK CHIC</title>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,700&family=Noto+Serif+KR:wght@300;400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
+
+
+
 :root {
   --black: #0d0b0b;
   --red: #6B1A1A;
@@ -146,14 +149,14 @@ section { position: relative; }
 .case-section {
   background: var(--black);
   padding: 140px 60px 120px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  display: grid; grid-template-columns: 640px 640px; gap: 0;
   min-height: 100vh; align-items: center;
 }
 .case-text-col { padding-right: 80px; }
 .case-tag {
   display: inline-block;
   background: var(--red);
-  padding: 12px 20px;
+  padding: 12px 20px;padding-right: 80px;width: 640px;
   margin-bottom: 36px;
 }
 .case-tag span {
@@ -175,8 +178,8 @@ section { position: relative; }
 .case-body strong { color: var(--cream); font-weight: 500; }
 
 .case-img-col {
-  position: relative; height: 580px;
-  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 4px;
+  position: relative; height: 580px; padding-left: 300px;
+  display: grid; grid-template-columns: 318px 318px; grid-template-rows: 290px 290px; gap: 4px;
 }
 .case-img {
   overflow: hidden; background: #1a1818;
@@ -280,7 +283,7 @@ section { position: relative; }
 /* ── EVIDENCE DETAIL ── */
 .evidence-detail {
   background: var(--black); padding: 120px 60px;
-  display: grid; grid-template-columns: 300px 1fr; gap: 80px; align-items: start;
+  display: grid; grid-template-columns: 300px 900px; gap: 80px; align-items: start;
   min-height: 80vh;
 }
 .evidence-img {
