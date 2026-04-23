@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SICK CHIC</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,700&family=Noto+Serif+KR:wght@300;400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0d0b0b;
+  --red: #6B1A1A;
+  --red-light: #8B2020;
+  --cream: #E8E0D4;
+  --cream-dim: #C8BFB2;
+  --white: #F0EBE3;
+  --muted: rgba(240,235,227,0.38);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {  min-width: 1280px;
+  background: var(--black);
+  color: var(--cream);
+  font-family: 'Bodoni Moda', 'Noto Serif KR', serif;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: var(--grain);
+  pointer-events: none;
+  z-index: 9000;
+  opacity: 0.5;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  display: flex; justify-content: center; align-items: center;
+  padding: 22px 40px;
+  mix-blend-mode: normal;
+  transition: background 0.4s;
+}
+nav.scrolled { background: rgba(13,11,11,0.92); backdrop-filter: blur(12px); }
+.nav-links { display: flex; gap: 48px; }
+.nav-links a {
+  font-family: 'Courier Prime', monospace;
+  font-size: 15px; letter-spacing: 0.22em; text-transform: lowercase;
+  color: var(--muted); text-decoration: none;
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 1px; background: var(--red);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.35s ease;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--white); }
+.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+
+/* ── HERO ── */
+.hero {
+  height: 100vh; min-height: 600px;
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-bg {
+  position: absolute; inset: -8%;
+  /* 배경 이미지 설정: 여기서 바꾸세요 */
+  background: linear-gradient(180deg, #1a1210 0%, #0d0b0b 50%, #0d0b0b 100%);
+  background-size: cover; background-position: center top;
+  filter: grayscale(100%) contrast(1.1);
+  will-change: transform;
+  transition: transform 0s linear;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    rgba(13,11,11,0.25) 0%,
+    rgba(13,11,11,0.1) 40%,
+    rgba(13,11,11,0.55) 100%);
+}
+/* 배경 이미지 placeholder - 실제 사진으로 교체 가능 */
+.hero-photo-placeholder {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+/* simulated back-of-head / neck photo */
+.hero-neck-sim {
+  position: absolute;
+  width: 55%; height: 90%;
+  top: 5%; left: 50%; transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 30%,
+    rgba(180,155,130,0.18) 0%, rgba(130,110,90,0.1) 30%, transparent 65%),
+    linear-gradient(180deg, #2a2218 0%, #1a1610 40%, #0d0c0a 100%);
+  clip-path: ellipse(42% 50% at 50% 45%);
+}
+
+.hero-word {
+  position: absolute;
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(80px, 11vw, 160px);
+  font-weight: 900; letter-spacing: -0.02em;
+  color: var(--white); line-height: 1;
+  z-index: 2; top: 50%; transform: translateY(-50%);
+  user-select: none;
+}
+.hero-word.left { left: 40px; }
+.hero-word.right { right: 40px; }
+
+.hero-quote {
+  position: absolute; z-index: 3;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  text-align: center; max-width: 280px;
+}
+.hero-quote p {
+  font-family: 'Courier Prime', monospace;
+  font-size: 12px; font-style: italic;
+  color: var(--cream-dim); line-height: 1.7; letter-spacing: 0.04em;
+}
+.hero-quote cite {
+  display: block; margin-top: 8px;
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(200,191,178,0.5); font-style: normal;
+}
+
+.hero-scroll {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  animation: scrollBounce 2s ease infinite;
+}
+.hero-scroll span { font-family: 'Courier Prime', monospace; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); }
+.hero-scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--red), transparent); }
+@keyframes scrollBounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+/* ── SECTION BASE ── */
+section { position: relative; }
+
+/* ── CASE STUDY ── */
+.case-section {
+  background: var(--black);
+  padding: 140px 60px 120px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  min-height: 100vh; align-items: center;
+}
+.case-text-col { padding-right: 80px; }
+.case-tag {
+  display: inline-block;
+  background: var(--red);
+  padding: 12px 20px;
+  margin-bottom: 36px;
+}
+.case-tag span {
+  font-family: 'Courier Prime', monospace;
+  font-size: 14px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--white);
+}
+.case-tag .case-title-inner {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 18px; font-style: italic; font-weight: 400;
+  color: var(--cream); display: block; margin-top: 6px;
+}
+.case-body {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 15px; line-height: 1.8; color: rgba(232,224,212,0.75);
+  font-weight: 300;
+}
+.case-body p + p { margin-top: 18px; }
+.case-body strong { color: var(--cream); font-weight: 500; }
+
+.case-img-col {
+  position: relative; height: 580px;
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 4px;
+}
+.case-img {
+  overflow: hidden; background: #1a1818;
+  position: relative;
+}
+.case-img-sim {
+  width: 100%; height: 100%;
+  filter: grayscale(100%) contrast(1.05);
+  background-size: cover; background-position: center;
+  transition: transform 0.6s ease;
+}
+.case-img:hover .case-img-sim { transform: scale(1.04); }
+
+/* ── NAV DIVIDER ── */
+.nav-divider {
+  background: rgba(255,255,255,0.03);
+  border-top: 1px solid rgba(255,255,255,0.07);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 18px 60px;
+  display: flex; justify-content: center; align-items: center;
+}
+.nav-divider .nav-links-inner { display: flex; gap: 56px; }
+.nav-divider .nav-links-inner a {
+  font-family: 'Courier Prime', monospace;
+  font-size: 14px; letter-spacing: 0.22em; text-transform: lowercase;
+  color: var(--muted); text-decoration: none; transition: color 0.3s;
+}
+.nav-divider .nav-links-inner a:hover { color: var(--white); }
+.nav-divider .nav-links-inner a.hl { color: var(--red-light); }
+
+/* ── EVIDENCE SECTION ── */
+.evidence-section {
+  background: var(--red);
+  position: relative;
+  overflow: hidden;
+  padding: 120px 60px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 50vh; text-align: center;
+}
+
+/* 워터마크 텍스트 — 지우려면 이 블록 삭제 */
+.evidence-section::before {
+  content: '';
+  position: absolute;
+  font-family: 'Bodoni Moda', serif;
+  font-size: 220px; font-weight: 900;
+  color: rgba(0,0,0,0.12);
+  letter-spacing: -0.05em; white-space: nowrap;
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+  pointer-events: none;
+}
+
+/* 반투명 배경사진 — ::after 로 따로 분리 */
+.evidence-section::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: url('scandal.jpg') center/cover no-repeat;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  pointer-events: none;z-index: 0;
+}
+.evidence-section .evidence-tag,
+.evidence-section .evidence-title,
+.evidence-section .evidence-cta {
+  position: relative;
+  z-index: 1;
+}
+.evidence-bg-img {
+  position: absolute; inset: 0;
+  background: url('scandal.jpg') center/cover no-repeat;
+  opacity: 0.15;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+.evidence-tag {
+  font-family: 'Courier Prime', monospace;
+  font-size: 13px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: rgba(240,235,227,0.55); margin-bottom: 24px;
+  display: flex; align-items: center; gap: 14px;
+}
+.evidence-tag::before, .evidence-tag::after {
+  content: ''; display: block; width: 32px; height: 1px;
+  background: rgba(240,235,227,0.35);
+}
+.evidence-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(20px, 2.8vw, 30px); font-weight: 400; font-style: italic;
+  color: var(--white); letter-spacing: 0.02em; margin-bottom: 20px;
+}
+.evidence-cta {
+  font-family: 'Courier Prime', monospace;
+  font-size: 13px; letter-spacing: 0.22em; text-transform: lowercase;
+  color: rgba(240,235,227,0.5); text-decoration: none;
+  border-bottom: 1px solid rgba(240,235,227,0.25); padding-bottom: 2px;
+  transition: color 0.3s, border-color 0.3s;
+}
+.evidence-cta:hover { color: var(--white); border-color: var(--white); }
+
+/* ── EVIDENCE DETAIL ── */
+.evidence-detail {
+  background: var(--black); padding: 120px 60px;
+  display: grid; grid-template-columns: 300px 1fr; gap: 80px; align-items: start;
+  min-height: 80vh;
+}
+.evidence-img {
+  position: relative; background: #111;
+}
+.evidence-img-main {
+  width: 100%; aspect-ratio: 3/4;
+  filter: grayscale(100%) contrast(1.1) brightness(0.9);
+  background-size: cover; background-position: center top;
+  background: linear-gradient(160deg, #1a1818 0%, #0d0d0a 100%);
+  position: relative; overflow: hidden;
+}
+.evidence-img-caption {
+  padding: 14px 0;
+  font-family: 'Courier Prime', monospace;
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(200,191,178,0.45); line-height: 1.7;
+}
+.evidence-img-overlay {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: flex-start; justify-content: flex-start;
+  padding: 24px 20px;
+}
+.evidence-vogue {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(240,235,227,0.6);
+}
+.evidence-obsession {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 52px; font-weight: 700;
+  color: var(--white); line-height: 0.9; margin-top: 8px;
+}
+.evidence-forMen {
+  font-family: 'Bodoni Moda', serif; font-style: italic;
+  font-size: 18px; color: rgba(240,235,227,0.7);
+}
+
+.evidence-text { padding-top: 8px; }
+.evidence-year {
+  font-family: 'Courier Prime', monospace;
+  font-size: 13px; letter-spacing: 0.15em; color: var(--red-light);
+  margin-bottom: 24px;
+}
+.evidence-body {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 15px; line-height: 1.8; color: rgba(232,224,212,0.72);
+  font-weight: 300;border: 1px solid rgba(255,255,255,0.2);  /* 테두리 */
+  padding: 40px;                      
+}
+.evidence-body p + p { margin-top: 20px; }
+.evidence-body strong { color: var(--cream); font-weight: 500; }
+
+/* ── SYMPTOMS SECTION — tech slider style ── */
+.symptoms-section { background: var(--black); }
+.symptoms-header {
+  padding: 120px 60px 0;
+  text-align: center;
+}
+.symptoms-headline {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(44px, 6vw, 90px);
+  font-weight: 900; line-height: 1; letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.symptoms-headline em { font-style: italic; font-weight: 400; }
+
+.symptoms-slider {
+  display: grid; grid-template-columns: 160px 1fr 1fr;
+  min-height: 560px; margin-top: 60px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.symptoms-counter-col {
+  padding: 60px 32px; border-right: 1px solid rgba(255,255,255,0.08);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.symptoms-num {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 64px; font-weight: 400; line-height: 1; color: var(--cream);
+}
+.symptoms-num small { font-size: 22px; color: var(--muted); }
+
+.symptoms-img-col { position: relative; overflow: hidden; background: #0a0808; }
+.symptom-img-slide {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.7s ease;
+}
+.symptom-img-slide.act { opacity: 1; }
+.symptom-img-slide-inner {
+  width: 100%; height: 100%;
+  filter: grayscale(100%) contrast(1.08);
+  background-size: cover; background-position: center top;
+}
+
+.symptoms-items-col {
+  padding: 60px 52px;
+  display: flex; flex-direction: column; justify-content: flex-start;
+}
+.symptoms-sub-lbl {
+  font-family: 'Courier Prime', monospace;
+  font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 24px;
+}
+.symptom-item {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 22px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+  cursor: crosshair; transition: opacity 0.3s;
+}
+.symptom-item:first-of-type { border-top: 1px solid rgba(255,255,255,0.08); }
+.symptom-item.current .symptom-item-name { opacity: 1; color: var(--cream); }
+.symptom-item-name {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 20px; font-weight: 400;
+  color: rgba(232,224,212,0.22); transition: color 0.4s, opacity 0.4s;
+  line-height: 1.3;
+}
+.symptom-item:hover .symptom-item-name { color: rgba(232,224,212,0.6); }
+.symptom-item-desc {
+  font-family: 'Courier Prime', monospace;
+  font-size: 11px; color: rgba(200,191,178,0); letter-spacing: 0.08em;
+  transition: color 0.4s; max-width: 200px; text-align: right; line-height: 1.6;
+}
+.symptom-item.current .symptom-item-desc { color: rgba(200,191,178,0.45); }
+.symptom-item:hover .symptom-item-desc { color: rgba(200,191,178,0.3); }
+
+/* ── ARCHIVES ── */
+.archives-section { background: #0a0808; padding: 120px 60px 140px; }
+.archives-header {
+  display: flex; align-items: baseline; gap: 20px; margin-bottom: 56px;
+}
+.archives-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 15px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--muted);
+}
+.archives-line { flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+
+.archives-grid {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px;
+  position: relative;
+}
+.archives-word-l {
+  position: absolute; left: -10px; bottom: -20px; z-index: 2;
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(60px, 8vw, 110px);
+  font-weight: 900; color: var(--white);
+  pointer-events: none; line-height: 1;
+  mix-blend-mode: overlay;
+}
+.archives-word-r {
+  position: absolute; right: -10px; bottom: -20px; z-index: 2;
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(60px, 8vw, 110px);
+  font-weight: 900; color: var(--white);
+  pointer-events: none; line-height: 1;
+  mix-blend-mode: overlay;
+}
+.archive-thumb {
+  aspect-ratio: 2/3; overflow: hidden; background: #181515; position: relative; cursor: crosshair;
+}
+.archive-thumb-inner {
+  width: 100%; height: 100%;
+  filter: grayscale(100%) contrast(1.1);
+  background-size: cover; background-position: center top;
+  transition: filter 0.5s ease, transform 0.6s ease;
+}
+.archive-thumb:hover .archive-thumb-inner {
+  filter: grayscale(0%) contrast(1.0);
+  transform: scale(1.06);
+}
+
+/* ── SECTION LABEL ── */
+.section-label {
+  font-family: 'Courier Prime', monospace;
+  font-size: 13px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 14px;
+}
+.section-label::before { content: ''; width: 22px; height: 1px; background: var(--red); }
+
+/* ── FOOTER ── */
+footer {
+  background: #080606;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 80px 60px 48px;
+}
+.footer-inner {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 60px; margin-bottom: 60px;
+}
+.footer-brand {
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(28px, 3vw, 42px); font-weight: 900;
+  line-height: 1; letter-spacing: -0.01em;
+}
+.footer-brand em { font-style: italic; color: var(--red-light); }
+.footer-tagline {
+  margin-top: 16px;
+  font-family: 'Courier Prime', monospace;
+  font-size: 11px; letter-spacing: 0.18em;
+  color: rgba(200,191,178,0.35); line-height: 1.7;
+  max-width: 240px;
+}
+.footer-col-title {
+  font-family: 'Courier Prime', monospace;
+  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(200,191,178,0.35); margin-bottom: 20px;
+}
+.footer-links { display: flex; flex-direction: column; gap: 12px; }
+.footer-links a {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 18px; font-weight: 400;
+  color: rgba(232,224,212,0.5); text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-links a:hover { color: var(--cream); }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06);
+}
+.footer-copy {
+  font-family: 'Courier Prime', monospace;
+  font-size: 11px; letter-spacing: 0.1em;
+  color: rgba(200,191,178,0.25);
+}
+.footer-red-line {
+  width: 32px; height: 1px; background: var(--red);
+}
+
+/* ── CORMORANT GARAMOND — 큰 글씨 전용 ── */
+.hero-word,
+.symptoms-headline,
+.archives-word-l,
+.archives-word-r,
+.footer-brand,
+.evidence-obsession,
+.symptoms-num,
+.case-tag .case-title-inner,
+.evidence-title {
+  font-family: 'Cormorant Garamond', serif !important;
+}
+
+/* ── WRAP 구조 ── */
+#wrap { width: 100%; }
+#header { width: 100%; position: fixed; top: 0; left: 0; right: 0; z-index: 500; }
+#section01 { width: 100%; }
+#section02 { width: 100%; }
+#section03 { width: 100%; }
+#section04 { width: 100%; }
+#section05 { width: 100%; }
+#footer { width: 100%; }
+.wrap { width: 100%; margin: 0 auto; }
+
+
+.sr { opacity: 0; transform: translateY(32px); transition: opacity 0.9s ease, transform 0.9s ease; }
+.sr.in { opacity: 1; transform: none; }
+.sr-delay-1 { transition-delay: 0.12s; }
+.sr-delay-2 { transition-delay: 0.24s; }
+.sr-delay-3 { transition-delay: 0.36s; }
+
+/* ── IMAGE PLACEHOLDER SIM FILLS ── */
+/* 아래에서 background: url('your-image.jpg') 로 교체하세요 */
+.sim-face-back {
+  background:
+    radial-gradient(ellipse at 50% 28%, rgba(185,160,125,0.28) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 60%, rgba(130,110,85,0.15) 0%, transparent 40%),
+    linear-gradient(180deg, #221e18 0%, #131210 50%, #0a0908 100%);
+}
+.sim-model-1 {
+  background:
+    radial-gradient(ellipse at 50% 25%, rgba(190,165,135,0.25) 0%, transparent 52%),
+    linear-gradient(180deg, #1e1c18 0%, #0d0c0a 100%);
+}
+.sim-model-2 {
+  background:
+    radial-gradient(ellipse at 52% 22%, rgba(185,162,132,0.22) 0%, transparent 50%),
+    linear-gradient(180deg, #1c1a16 0%, #0d0c0a 100%);
+}
+.sim-model-3 {
+  background:
+    radial-gradient(ellipse at 48% 26%, rgba(180,158,128,0.2) 0%, transparent 48%),
+    linear-gradient(180deg, #1a1816 0%, #0d0c0a 100%);
+}
+.sim-bottle {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(200,190,170,0.3) 0%, transparent 55%),
+    linear-gradient(160deg, #1e1e1a 0%, #0d0d0a 100%);
+}
+.sim-standing {
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(185,165,140,0.22) 0%, transparent 55%),
+    linear-gradient(180deg, #1e1a16 0%, #0d0c0a 100%);
+}
+</style>
+</head>
+<body>
+
+<div id="wrap">
+
+<!-- ── HEADER ── -->
+<div id="header">
+<nav id="mainNav">
+  <div></div>
+  <div class="nav-links">
+    <a href="#case" class="active">case</a>
+    <a href="#evidence">evidence</a>
+    <a href="#symptoms">symptoms</a>
+    <a href="#archives">archives</a>
+  </div>
+</nav>
+</div><!-- //header -->
+
+<!-- ══════════════════════════════════════════
+     SECTION01 : HERO
+═══════════════════════════════════════════ -->
+<div id="section01">
+  <div class="wrap">
+<section class="hero" id="hero">
+  <!-- 배경 이미지: .hero-bg 의 background를 url('your-photo.jpg')로 교체 -->
+  <div class="hero-bg sim-face-back" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+
+  <!-- SICK (좌) -->
+  <div class="hero-word left">SICK</div>
+
+  <!-- 중앙 인용구 -->
+  <div class="hero-quote">
+    <p>"Nothing tastes as good as skinny feels."</p>
+    <cite>— Kate Moss (2009)</cite>
+  </div>
+
+  <!-- CHIC (우) -->
+  <div class="hero-word right">CHIC</div>
+
+  <div class="hero-scroll">
+    <span>scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+  </div><!-- //wrap -->
+</div><!-- //section01 -->
+
+
+
+<!-- ══════════════════════════════════════════
+     SECTION02 : CASE STUDY
+═══════════════════════════════════════════ -->
+<div id="section02">
+  <div class="wrap">
+<section class="case-section" id="case">
+  <div class="case-text-col sr">
+    <div class="case-tag">
+      <span>[CASE STUDY] :</span>
+      <span class="case-title-inner">The Death of Supermodels</span>
+    </div>
+    <div class="case-body">
+      <p>1980년대는 나오미 캠벨, 신디 크로포드와 같은 슈퍼모델들이 상징하는 <strong>건강함 · 풍요로움 · 화려함</strong>이 이상이었다. 그러나 1990년대에 접어들며 패션계의 미학은 급격히 모멸기를 시작한다.
+      니바나(Nirvana)의 그런지 문화와 결합한 패션은 정교한 메이크업 대신 번진 마이라인을, 근육질의 몸매 대신 말라다가 드러나는 앙상한 실루엣을 선택했다.
+      이는 단순한 트렌드의 변화가 아닌 <strong>' Sick Chic , Heroin Chic '</strong>의 시작이었다.</p>
+    </div>
+  </div>
+
+  <div class="case-img-col sr sr-delay-1">
+    <!-- 이미지 4장: .sim-model-* 을 url('your-img.jpg') 로 교체 -->
+    <div class="case-img">
+      <div class="case-img-sim sim-model-1"
+        style="background:
+          radial-gradient(ellipse at 48% 22%,rgba(190,165,130,.28) 0%,transparent 52%),
+          linear-gradient(180deg,#1e1c18 0%,#0d0c0a 100%)">
+      </div>
+    </div>
+    <div class="case-img">
+      <div class="case-img-sim sim-model-2"
+        style="background:
+          radial-gradient(ellipse at 52% 18%,rgba(185,160,128,.25) 0%,transparent 50%),
+          linear-gradient(160deg,#1c1a16 0%,#0a0908 100%)">
+      </div>
+    </div>
+    <div class="case-img">
+      <div class="case-img-sim sim-model-3"
+        style="background:
+          radial-gradient(ellipse at 50% 30%,rgba(180,155,125,.22) 0%,transparent 48%),
+          linear-gradient(180deg,#1a1816 0%,#0d0c0a 100%)">
+      </div>
+    </div>
+    <div class="case-img">
+      <div class="case-img-sim sim-model-1"
+        style="background:
+          radial-gradient(ellipse at 45% 20%,rgba(188,162,130,.26) 0%,transparent 50%),
+          linear-gradient(160deg,#201e1a 0%,#0d0c0a 100%)">
+      </div>
+    </div>
+  </div>
+</section>
+  </div><!-- //wrap -->
+</div><!-- //section02 -->
+
+
+
+<!-- ══════════════════════════════════════════
+     SECTION03 : EVIDENCE
+═══════════════════════════════════════════ -->
+<div id="section03">
+  <div class="wrap">
+<section class="evidence-section" id="evidence">
+  <div class="evidence-bg-img" id="evidenceBg"></div>
+  <div class="evidence-tag sr">Evidence</div>
+  <div class="evidence-title sr sr-delay-1">[EVIDENCE] : 1993, The Obsession Scandal</div>
+  <a href="https://www.youtube.com/watch?v=1gMhjiQ8Obk" class="evidence-cta sr sr-delay-2">click to watch</a>
+
+</section>
+
+<!-- ── EVIDENCE DETAIL ── -->
+<div class="evidence-detail">
+  <div class="sr">
+    <!-- Obsession 광고 이미지: .evidence-img-main 에 배경 교체 -->
+    <div class="evidence-img">
+      <div class="evidence-img-main sim-bottle">
+        <div class="evidence-img-overlay">
+          <span class="evidence-vogue"></span>
+          <div class="evidence-obsession"></div>
+          <div class="evidence-forMen"></div>
+        </div>
+      </div>
+      <div class="evidence-img-caption">
+        Calvin Klein 'Obsession' 광고 캠페인, 1993<br>
+        
+      </div>
+    </div>
+  </div>
+  <div class="evidence-text sr sr-delay-1">
+    <div class="evidence-year">[1993년, Calvin Klein]</div>
+    <div class="evidence-body">
+      <p><strong>1993년, 사진작가 마리오 소렌티가 촬영한 캘빈 클라인 광고가 세상에 공개되었다. </strong>그는 연인이었던 케이트 모스를 모델로 화려한 연출을 배제한 채, 메이크업 없는 얼굴과 퀭한 눈을 가감 없이 드러냈다. 이 생경한 모습은 기존 패션계가 고수해 온 완벽한 미적 기준을 단숨에 파괴하며 큰 파장을 일으켰다.그러나 광고가 뉴욕 빌보드에 걸리자마자 여론은 즉각적으로 반발했다. 대중은 모델의 비정상적인 마름이 마약 중독자를 연상시킨다며 분노했고, 패션이 거식증과 마약 중독을 미화하고 있다는 비판이 쏟아졌다. 사태가 심각해지자 각종 단체들은 캘빈 클라인에 대한 대대적인 불매 운동을 전개하기 시작했다.
+이러한 압박에도 불구하고, 결과는 예상과 달랐다. 기성세대의 도덕 관념에 반발하던 X세대는 오히려 이 불안하고 결핍된 이미지에 열광하며 캘빈 클라인의 매출을 폭발적으로 끌어올렸다. <strong>비난이 거세질수록 ‘헤로인 시크’는 하이패션의 정점에 자리 잡았고, 케이트 모스는 시대의 아이콘이 되었다.</strong>
+</p>
+    </div>
+  </div>
+</div>
+  </div><!-- //wrap -->
+</div><!-- //section03 -->
+
+
+
+<!-- ══════════════════════════════════════════
+     SECTION04 : SYMPTOMS
+═══════════════════════════════════════════ -->
+<div id="section04">
+  <div class="wrap">
+<section class="symptoms-section" id="symptoms">
+  <div class="symptoms-header sr">
+    <div class="symptoms-headline">Symptoms <em>of</em><br>Sick Chic</div>
+  </div>
+  <div class="symptoms-slider">
+    <div class="symptoms-counter-col">
+      <div class="symptoms-num" id="sympNum">01<small>/05</small></div>
+    </div>
+    <div class="symptoms-img-col">
+      <div class="symptom-img-slide act" data-idx="0">
+        <div class="symptom-img-slide-inner" style="background:radial-gradient(ellipse at 50% 20%,rgba(190,165,130,.28) 0%,transparent 52%),linear-gradient(180deg,#1e1c18,#0a0908)"></div>
+      </div>
+      <div class="symptom-img-slide" data-idx="1">
+        <div class="symptom-img-slide-inner" style="background:radial-gradient(ellipse at 50% 28%,rgba(185,162,130,.25) 0%,transparent 50%),linear-gradient(160deg,#1c1a14,#0d0c0a)"></div>
+      </div>
+      <div class="symptom-img-slide" data-idx="2">
+        <div class="symptom-img-slide-inner" style="background:radial-gradient(ellipse at 52% 22%,rgba(180,158,125,.22) 0%,transparent 50%),linear-gradient(180deg,#1a1816,#0d0c0a)"></div>
+      </div>
+      <div class="symptom-img-slide" data-idx="3">
+        <div class="symptom-img-slide-inner" style="background:radial-gradient(ellipse at 48% 25%,rgba(188,162,130,.26) 0%,transparent 50%),linear-gradient(160deg,#201e1a,#0d0c0a)"></div>
+      </div>
+      <div class="symptom-img-slide" data-idx="4">
+        <div class="symptom-img-slide-inner" style="background:radial-gradient(ellipse at 50% 18%,rgba(185,160,128,.24) 0%,transparent 48%),linear-gradient(180deg,#1e1c18,#0a0908)"></div>
+      </div>
+    </div>
+    <div class="symptoms-items-col">
+      <div class="symptoms-sub-lbl">Symptoms</div>
+      <div class="symptom-item current" data-symp="0" onclick="setSymp(0,this)">
+        <span class="symptom-item-name">The Ghostly Pallor</span>
+        <span class="symptom-item-desc">Pale Skin</span>
+      </div>
+      <div class="symptom-item" data-symp="1" onclick="setSymp(1,this)">
+        <span class="symptom-item-name">The Hollow Silhouette</span>
+        <span class="symptom-item-desc">Extreme Thinness</span>
+      </div>
+      <div class="symptom-item" data-symp="2" onclick="setSymp(2,this)">
+        <span class="symptom-item-name">The Distressed Fabric</span>
+        <span class="symptom-item-desc">Grunge Layering</span>
+      </div>
+      <div class="symptom-item" data-symp="3" onclick="setSymp(3,this)">
+        <span class="symptom-item-name">The Smudged Eye</span>
+        <span class="symptom-item-desc">Heroin Chic Makeup</span>
+      </div>
+      <div class="symptom-item" data-symp="4" onclick="setSymp(4,this)">
+        <span class="symptom-item-name">The Absent Gaze</span>
+        <span class="symptom-item-desc">Vacant Expression</span>
+      </div>
+    </div>
+  </div>
+</section>
+  </div><!-- //wrap -->
+</div><!-- //section04 -->
+
+
+
+<!-- ══════════════════════════════════════════
+     SECTION05 : ARCHIVES
+═══════════════════════════════════════════ -->
+<div id="section05">
+  <div class="wrap">
+<section class="archives-section" id="archives">
+  <div class="archives-header sr">
+    <span class="archives-title">Archives</span>
+    <div class="archives-line"></div>
+  </div>
+
+  <div class="archives-grid sr">
+    <div class="archives-word-l">SICK</div>
+    <div class="archives-word-r">CHIC</div>
+
+    <!-- 아카이브 사진들: 각 .archive-thumb-inner 에 background: url('img.jpg') 교체 -->
+    <div class="archive-thumb">
+      <div class="archive-thumb-inner" style="background:radial-gradient(ellipse at 50% 22%,rgba(190,165,130,.3) 0%,transparent 52%),linear-gradient(180deg,#1e1c18,#0d0c0a)"></div>
+    </div>
+    <div class="archive-thumb" style="margin-top:20px">
+      <div class="archive-thumb-inner" style="background:radial-gradient(ellipse at 48% 28%,rgba(185,160,128,.27) 0%,transparent 50%),linear-gradient(160deg,#1c1a16,#0a0908)"></div>
+    </div>
+    <div class="archive-thumb">
+      <div class="archive-thumb-inner" style="background:radial-gradient(ellipse at 52% 20%,rgba(180,158,125,.25) 0%,transparent 50%),linear-gradient(180deg,#1a1816,#0d0c0a)"></div>
+    </div>
+    <div class="archive-thumb" style="margin-top:32px">
+      <div class="archive-thumb-inner" style="background:radial-gradient(ellipse at 50% 25%,rgba(188,162,130,.26) 0%,transparent 50%),linear-gradient(160deg,#201e1a,#0d0c0a)"></div>
+    </div>
+    <div class="archive-thumb">
+      <div class="archive-thumb-inner" style="background:radial-gradient(ellipse at 50% 24%,rgba(185,160,128,.24) 0%,transparent 48%),linear-gradient(180deg,#1e1c18,#0a0908)"></div>
+    </div>
+    <div class="archive-thumb" style="margin-top:16px">
+      <div class="archive-thumb-inner" style="background:radial-gradient(ellipse at 50% 28%,rgba(182,158,126,.22) 0%,transparent 50%),linear-gradient(160deg,#1c1a16,#0d0c0a)"></div>
+    </div>
+    <!-- 2nd row -->
+    <div class="archive-thumb" style="margin-top:3px">
+      <div class="archive-thumb-inner" style="background:radial-gradient(ellipse at 48% 22%,rgba(190,165,130,.28) 0%,transparent 50%),linear-gradient(180deg,#1e1c18,#0d0c0a)"></div>
+    </div>
+    <div class="archive-thumb" style="margin-top:3px">
+      <div class="archive-thumb-inner" style="background:radial-gradient(ellipse at 52% 25%,rgba(185,162,132,.25) 0%,transparent 52%),linear-gradient(160deg,#1a1816,#0a0908)"></div>
+    </div>
+    <div class="archive-thumb" style="margin-top:3px">
+      <div class="archive-thumb-inner" style="background:radial-gradient(ellipse at 50% 20%,rgba(188,165,130,.26) 0%,transparent 50%),linear-gradient(180deg,#1e1c18,#0d0c0a)"></div>
+    </div>
+    <div class="archive-thumb" style="margin-top:3px">
+      <div class="archive-thumb-inner" style="background:radial-gradient(ellipse at 50% 28%,rgba(182,158,126,.23) 0%,transparent 48%),linear-gradient(160deg,#1c1a16,#0a0908)"></div>
+    </div>
+    <div class="archive-thumb" style="margin-top:3px">
+      <div class="archive-thumb-inner" style="background:radial-gradient(ellipse at 48% 24%,rgba(186,162,130,.25) 0%,transparent 50%),linear-gradient(180deg,#1e1c18,#0d0c0a)"></div>
+    </div>
+    <div class="archive-thumb" style="margin-top:3px">
+      <div class="archive-thumb-inner" style="background:radial-gradient(ellipse at 52% 22%,rgba(190,165,132,.27) 0%,transparent 52%),linear-gradient(160deg,#1a1816,#0d0c0a)"></div>
+    </div>
+  </div>
+</section>
+  </div><!-- //wrap -->
+</div><!-- //section05 -->
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<div id="footer">
+  <div class="wrap">
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">SICK<br><em>CHIC</em></div>
+      <p class="footer-tagline">A study of beauty, illness, and the aesthetics of destruction. Fashion as infection.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Sections</div>
+      <div class="footer-links">
+        <a href="#case">Case Study</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#symptoms">Symptoms</a>
+        <a href="#archives">Archives</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">About</div>
+      <div class="footer-links">
+        <a href="#">Sick</a>
+        <a href="#">Chic</a>
+        <a href="#"></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 SICK CHIC — All rights reserved Choyunjin</span>
+    <div class="footer-red-line"></div>
+    <span class="footer-copy">Fashion · Culture · Seoultech</span>
+  </div>
+</footer>
+  </div><!-- //wrap -->
+</div><!-- //footer -->
+
+</div><!-- //wrap -->
+
+<script>
+// ── NAV 스크롤 ──
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', scrollY > 60);
+  const sections = ['case','evidence','symptoms','archives'];
+  let current = '';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if(el && el.getBoundingClientRect().top <= 100) current = id;
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#'+current);
+  });
+});
+
+// ── HERO 패럴랙스 ──
+const heroBg = document.getElementById('heroBg');
+window.addEventListener('scroll', () => {
+  const y = scrollY * 0.38;
+  heroBg.style.transform = `translateY(${y}px)`;
+}, { passive: true });
+// ── EVIDENCE 패럴랙스 ──
+const evidenceBg = document.getElementById('evidenceBg');
+window.addEventListener('scroll', () => {
+  if(!evidenceBg) return;
+  const rect = document.getElementById('evidence').getBoundingClientRect();
+  const y = rect.top * 0.25;
+  evidenceBg.style.transform = `translateY(${y}px)`;
+}, { passive: true });
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.sr').forEach(el => observer.observe(el));
+
+// ── SYMPTOMS SLIDER ──
+function setSymp(idx, el) {
+  document.querySelectorAll('.symptom-item').forEach(t => t.classList.remove('current'));
+  document.querySelectorAll('.symptom-img-slide').forEach(s => s.classList.remove('act'));
+  el.classList.add('current');
+  document.querySelector(`.symptom-img-slide[data-idx="${idx}"]`).classList.add('act');
+  document.getElementById('sympNum').innerHTML = `0${idx+1}<small>/05</small>`;
+}
+let sympIdx = 0;
+setInterval(() => {
+  sympIdx = (sympIdx + 1) % 5;
+  setSymp(sympIdx, document.querySelectorAll('.symptom-item')[sympIdx]);
+}, 2600);
+
+// ══════════════════════════════════════════════════════════
+// 🖼️  이미지 설정 — 여기만 바꾸세요!
+//
+// src : 파일명  (예: 'neck.jpg')
+// pos : 사진 위치
+//   'center top'    → 위쪽 기준 (얼굴/상체)
+//   'center center' → 정중앙
+//   'center bottom' → 아래쪽
+//   '50% 20%'       → 위에서 20% (숫자 낮을수록 위로)
+//
+// src 비워두면 기본 그라디언트 유지
+// ══════════════════════════════════════════════════════════
+const IMAGES = {
+  hero:      { src: 'neck.jpg',  pos: '41% 44%',size:'81%'   },  // 히어로 배경
+  case_img1: { src: 'case1.jpg',  pos: 'center top'    },  // 케이스 스터디 사진 1
+  case_img2: { src: 'case2.jpg',  pos: 'center top'    },  // 케이스 스터디 사진 2
+  case_img3: { src: 'case3.jpg',  pos: 'center top'    },  // 케이스 스터디 사진 3
+  case_img4: { src: 'case4.jpg',  pos: 'center top'    },  // 케이스 스터디 사진 4
+  obsession: { src: 'obsession.jpg',  pos: 'center center' },  // Obsession 광고
+  symptom1:  { src: 's1.jpg',  pos: 'center top'    },  // 증상 슬라이드 1
+  symptom2:  { src: 's2.jpg',  pos: 'center top'    },  // 증상 슬라이드 2
+  symptom3:  { src: 's3.jpg',  pos: 'center top'    },  // 증상 슬라이드 3
+  symptom4:  { src: 's4.jpg',  pos: 'center top'    },  // 증상 슬라이드 4
+  symptom5:  { src: 's5.jpg',  pos: 'center top'    },  // 증상 슬라이드 5
+  archive: [                                       // 아카이브 그리드 12장
+    { src: 'a1.jpg', pos: 'center top' },
+    { src: 'a2.jpg', pos: 'center top' },
+    { src: 'a3.jpg', pos: 'center top' },
+    { src: 'a4.jpg', pos: 'center top' },
+    { src: 'a5.jpg', pos: 'center top' },
+    { src: 'a6.jpg', pos: 'center top' },
+    { src: 'a7.jpg', pos: 'center top' },
+    { src: 'a8.jpg', pos: 'center top' },
+    { src: 'a9.jpg', pos: 'center top' },
+    { src: 'a10.jpg', pos: 'center top' },
+    { src: 'a11.jpg', pos: 'center top' },
+    { src: 'a12.jpg', pos: 'center top' },
+  ],
+};
+
+// ── 자동 적용  ──
+(function apply(){
+  function applyImg(el, cfg){
+    if(!el || !cfg || !cfg.src) return;
+    el.style.backgroundImage    = `url('${cfg.src}')`;
+    el.style.backgroundSize     = cfg.size || 'cover';
+    el.style.backgroundPosition = cfg.pos || 'center top';
+  }
+  applyImg(document.querySelector('.hero-bg'), IMAGES.hero);
+  const caseImgs = document.querySelectorAll('.case-img-sim');
+  ['case_img1','case_img2','case_img3','case_img4'].forEach((k,i) => applyImg(caseImgs[i], IMAGES[k]));
+  applyImg(document.querySelector('.evidence-img-main'), IMAGES.obsession);
+  const sympSlides = document.querySelectorAll('.symptom-img-slide-inner');
+  ['symptom1','symptom2','symptom3','symptom4','symptom5'].forEach((k,i) => applyImg(sympSlides[i], IMAGES[k]));
+  const archiveImgs = document.querySelectorAll('.archive-thumb-inner');
+  IMAGES.archive.forEach((cfg, i) => applyImg(archiveImgs[i], cfg));
+})();
+</script>
+</body>
+</html>
